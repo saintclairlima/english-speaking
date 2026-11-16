@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Speaking Assessment</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <main class="container">
+
+        <h1>Speaking Assessment</h1>
+
+        <div class="student">
+            <label for="aluno">Student name</label>
+            <input
+                type="text"
+                id="aluno"
+                placeholder="Enter your name"
+                required
+            >
+        </div>
+
+        <div class="progress">
+            <span id="progresso">Question 1</span>
+            <span id="total"></span>
+        </div>
+
+        <div class="phrase-container">
+            <h2 id="frase">Loading...</h2>
+        </div>
+
+        <p id="status">Press the button to start recording.</p>
+
+        <div class="controls">
+            <button id="gravar">Start recording</button>
+            <button id="parar" disabled>Stop recording</button>
+        </div>
+
+        <div id="resultado" hidden>
+            <h3>Transcription</h3>
+            <p id="transcricao"></p>
+        </div>
+
+        <button id="proxima" hidden>Next sentence</button>
+
+    </main>
+
+    <script src="/static/app.js"></script>
+
+</body>
+</html>
