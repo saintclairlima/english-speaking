@@ -1,56 +1,107 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f8fafc">
 
-    <title>Speaking Assessment</title>
+    <title>Avaliação oral</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-
     <main class="container">
+        <header class="header">
+            <div class="logo" aria-hidden="true">S</div>
+            <div>
+                <h1>Avaliação oral</h1>
+                <p class="subtitle">Escute, pratique e grave sua resposta</p>
+            </div>
+        </header>
 
-        <h1>Speaking Assessment</h1>
-
-        <div class="student">
-            <label for="aluno">Student name</label>
+        <section class="student-section" aria-label="Informações do aluno">
+            <label for="aluno">Nome</label>
             <input
                 type="text"
                 id="aluno"
-                placeholder="Enter your name"
+                placeholder="Escreva seu nome"
+                autocomplete="name"
                 required
             >
-        </div>
+        </section>
 
-        <div class="progress">
-            <span id="progresso">Question 1</span>
-            <span id="total"></span>
-        </div>
+        <section class="activity-card" aria-label="Atividade oral">
+            <div class="progress-row">
+                <span id="progresso">Questão 1</span>
+                <span id="total"></span>
+            </div>
 
-        <div class="phrase-container">
-            <h2 id="frase">Loading...</h2>
-        </div>
+            <div class="progress-track" aria-hidden="true">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
 
-        <p id="status">Press the button to start recording.</p>
+            <div class="phrase-container">
+                <span class="eyebrow">Leia a frase em voz alta</span>
+                <h2 id="frase">Carregando...</h2>
+            </div>
 
-        <div class="controls">
-            <button id="gravar">Start recording</button>
-            <button id="parar" disabled>Stop recording</button>
-        </div>
+            <p id="status" class="status" role="status" aria-live="polite">
+                Toque no microfone para começar a gravar.
+            </p>
 
-        <div id="resultado" hidden>
-            <h3>Transcription</h3>
-            <p id="transcricao"></p>
-        </div>
+            <div class="recording-area">
+                <button
+                    id="gravar"
+                    class="record-button"
+                    type="button"
+                    aria-label="Iniciar gravação"
+                    title="Iniciar gravação"
+                    disabled
+                >
+                    <span id="record-icon" class="record-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                            <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"></path>
+                            <path d="M19 11a7 7 0 0 1-14 0M12 18v4m-4 0h8"></path>
+                        </svg>
+                    </span>
+                </button>
+                <span id="record-label" class="record-label">Toque para gravar</span>
+                <span id="recording-indicator" class="recording-indicator" hidden>
+                    <span class="pulse-dot"></span> Gravando
+                </span>
+            </div>
 
-        <button id="proxima" hidden>Next sentence</button>
+            <section id="resultado" class="result-card" hidden>
+                <div class="result-heading">
+                    <span class="result-icon" aria-hidden="true">✓</span>
+                    <h3>Transcrição de sua fala</h3>
+                </div>
+                <p id="transcricao" class="transcription"></p>
+                <p class="review-hint">Confirme sua resposta ou tente outra vez</p>
 
+                <div class="result-actions">
+                    <button id="tentar-novamente" class="button button-secondary" type="button">
+                        Refazer
+                    </button>
+                    <button id="confirmar" class="button button-primary" type="button">
+                        Confirmar
+                    </button>
+                </div>
+            </section>
+
+            <button id="proxima" class="button button-next" type="button" hidden>
+                Próxima questão <span aria-hidden="true">→</span>
+            </button>
+        </section>
+
+        <footer class="footer">
+            Sua resposta só será salva depois de você confirmar.
+        </footer>
     </main>
 
-    <script src="/static/app.js"></script>
-
+    <script src="/static/app.js" defer></script>
 </body>
 </html>

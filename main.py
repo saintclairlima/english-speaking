@@ -1,4 +1,3 @@
-
 import os
 import io
 import json
@@ -43,8 +42,12 @@ def obter_drive():
         scopes=SCOPES
     )
 
-    return build("drive", "v3", credentials=credentials,
-                 cache_discovery=False)
+    return build(
+        "drive",
+        "v3",
+        credentials=credentials,
+        cache_discovery=False
+    )
 
 
 def salvar_drive(drive, nome, conteudo, mime_type):
@@ -66,22 +69,9 @@ def salvar_drive(drive, nome, conteudo, mime_type):
     return resultado["id"]
 
 
-@app.get("/")
-def index():
-    return FileResponse("static/index.html")
+def validar_resposta(aluno, frase_index, audio):
+    """Valida os dados e retorna o áudio, a extensão e o MIME type."""
 
-
-@app.get("/api/frases")
-def obter_frases():
-    return ATIVIDADE
-
-
-@app.post("/api/enviar")
-def enviar_resposta(
-    aluno: str = Form(...),
-    frase_index: int = Form(...),
-    audio: UploadFile = File(...)
-):
     if not aluno.strip():
         raise HTTPException(400, "Informe o nome do aluno.")
 
@@ -112,10 +102,37 @@ def enviar_resposta(
 
     extensao, mime_type = extensoes[mime_type]
 
-    frase = frases[frase_index]
+    return conteudo_audio, extensao, mime_type
+
+
+@app.get("/")
+def index():
+    return FileResponse("static/index.html")
+
+
+@app.get("/api/frases")
+def obter_frases():
+    return ATIVIDADE
+
+
+@app.post("/api/analisar")
+def analisar_resposta(
+    aluno: str = Form(...),
+    frase_index: int = Form(...),
+    audio: UploadFile = File(...)
+):
+    """
+    Recebe o áudio e retorna a transcrição.
+    Não salva nenhum arquivo no Google Drive.
+    """
+
+    conteudo_audio, extensao, mime_type = validar_resposta(
+        aluno,
+        frase_index,
+        audio
+    )
 
     try:
-        # Transcrição em inglês
         transcricao = openai.audio.transcriptions.create(
             model="gpt-transcribe",
             file=(
@@ -136,9 +153,42 @@ def enviar_resposta(
             )
         )
 
-        texto = transcricao.text
+        return {
+            "success": True,
+            "transcricao": transcricao.text
+        }
 
-        # Preparação dos nomes
+    except Exception as e:
+        print(f"Erro ao transcrever gravação: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Não foi possível analisar a gravação."
+        )
+
+
+@app.post("/api/confirmar")
+def confirmar_resposta(
+    aluno: str = Form(...),
+    frase_index: int = Form(...),
+    transcricao: str = Form(...),
+    audio: UploadFile = File(...)
+):
+    """
+    Salva no Google Drive o áudio e a transcrição confirmados pelo aluno.
+    """
+
+    conteudo_audio, extensao, mime_type = validar_resposta(
+        aluno,
+        frase_index,
+        audio
+    )
+
+    if not transcricao.strip():
+        raise HTTPException(400, "A transcrição não pode estar vazia.")
+
+    frase = ATIVIDADE["frases"][frase_index]
+
+    try:
         aluno_seguro = re.sub(
             r"[^a-zA-Z0-9_-]",
             "_",
@@ -153,7 +203,6 @@ def enviar_resposta(
             f"{identificador}"
         )
 
-        # Armazenamento no Google Drive
         drive = obter_drive()
 
         id_audio = salvar_drive(
@@ -168,11 +217,11 @@ def enviar_resposta(
             f"Atividade: {ATIVIDADE['atividade']}\n"
             f"Frase: {frase_index + 1}\n"
             f"Frase original: {frase}\n"
-            f"Transcrição: {texto}\n"
+            f"Transcrição: {transcricao.strip()}\n"
             f"Data: {datetime.now().isoformat()}\n"
         )
 
-        salvar_drive(
+        id_texto = salvar_drive(
             drive,
             f"{nome_base}.txt",
             conteudo_texto.encode("utf-8"),
@@ -181,13 +230,13 @@ def enviar_resposta(
 
         return {
             "success": True,
-            "transcricao": texto,
-            "id_audio": id_audio
+            "id_audio": id_audio,
+            "id_texto": id_texto
         }
 
     except Exception as e:
-        print(f"Erro ao processar gravação: {e}")
+        print(f"Erro ao salvar gravação no Google Drive: {e}")
         raise HTTPException(
             status_code=500,
-            detail="Não foi possível processar a gravação."
+            detail="Não foi possível salvar a gravação."
         )
