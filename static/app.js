@@ -66,6 +66,7 @@ function definirStatus(mensagem, tipo = "") {
 
 function atualizarBotaoGravar({ texto, icone = iconeMicrofone, desabilitado = false, gravando = false }) {
     recordLabel.textContent = texto;
+    recordLabel.hidden = false;
     recordIcon.innerHTML = icone;
     botaoGravar.disabled = desabilitado;
     botaoGravar.classList.toggle("is-recording", gravando);
@@ -344,6 +345,8 @@ async function confirmarResposta() {
         partesAudio = [];
         resultado.hidden = true;
         botaoGravar.hidden = true;
+        recordLabel.hidden = true;
+        recordingIndicator.hidden = true;
         botaoProxima.hidden = false;
         definirStatus("Gravação salva!", "success");
 

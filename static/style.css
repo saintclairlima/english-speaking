@@ -225,6 +225,12 @@ h1 {
     animation: recording-pulse 1.5s infinite;
 }
 
+/* O estado de gravação deve prevalecer também quando o cursor está sobre o botão. */
+.record-button.is-recording:hover:not(:disabled) {
+    background: #ef4444;
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.12);
+}
+
 .record-icon svg {
     width: 31px;
     height: 31px;
