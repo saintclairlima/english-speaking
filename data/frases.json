@@ -1,11 +1,21 @@
-
 {
     "atividade": "Speaking Assessment - Lesson 01",
     "frases": [
-        "What do you usually do?",
-        "Would you like some coffee?",
-        "How many brothers do you have?",
-        "Could you help me, please?",
-        "What would you like to eat?"
+        {
+            "enunciado": "Fale em inglês",
+            "frase": "Preciso de dinheiro"
+        },
+        {
+            "enunciado": "Leia a frase em voz alta",
+            "frase": "I want to go to the movies on weekends"
+        },
+        {
+            "enunciado": "Responda a pergunta",
+            "frase": "Would you like some coffee?"
+        },
+        {
+            "enunciado": "Responda a pergunta",
+            "frase": "How many brothers do you have?"
+        }
     ]
 }

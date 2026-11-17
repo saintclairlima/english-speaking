@@ -10,6 +10,7 @@ let iniciandoGravacao = false;
 
 const aluno = document.getElementById("aluno");
 const frase = document.getElementById("frase");
+const enunciado = document.getElementById("enunciado");
 const status = document.getElementById("status");
 
 const botaoGravar = document.getElementById("gravar");
@@ -75,7 +76,16 @@ function atualizarBotaoGravar({ texto, icone = iconeMicrofone, desabilitado = fa
 
 
 function mostrarFrase() {
-    frase.textContent = frases[indice];
+    const questao = frases[indice];
+
+    // Aceita tanto o formato novo (objeto) quanto o formato antigo (string).
+    if (typeof questao === "string") {
+        enunciado.textContent = "Leia a frase em voz alta";
+        frase.textContent = questao;
+    } else {
+        enunciado.textContent = questao.enunciado || "Leia a frase em voz alta";
+        frase.textContent = questao.frase || "";
+    }
     progresso.textContent = `Questão ${indice + 1} de ${frases.length}`;
     progressBar.style.width = `${((indice + 1) / frases.length) * 100}%`;
 

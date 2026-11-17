@@ -186,7 +186,15 @@ def confirmar_resposta(
     if not transcricao.strip():
         raise HTTPException(400, "A transcrição não pode estar vazia.")
 
-    frase = ATIVIDADE["frases"][frase_index]
+    questao = ATIVIDADE["frases"][frase_index]
+
+    # Compatibilidade com o formato antigo, em que cada questão era uma string.
+    if isinstance(questao, str):
+        enunciado = "Leia a frase em voz alta"
+        frase = questao
+    else:
+        enunciado = questao.get("enunciado", "Leia a frase em voz alta")
+        frase = questao.get("frase", "")
 
     try:
         aluno_seguro = re.sub(
@@ -215,7 +223,8 @@ def confirmar_resposta(
         conteudo_texto = (
             f"Aluno: {aluno}\n"
             f"Atividade: {ATIVIDADE['atividade']}\n"
-            f"Frase: {frase_index + 1}\n"
+            f"Questão: {frase_index + 1}\n"
+            f"Enunciado: {enunciado}\n"
             f"Frase original: {frase}\n"
             f"Transcrição: {transcricao.strip()}\n"
             f"Data: {datetime.now().isoformat()}\n"
