@@ -123,7 +123,17 @@ def enviar_resposta(
                 io.BytesIO(conteudo_audio),
                 mime_type
             ),
-            languages=["en"]
+            languages=["en"],
+            prompt=(
+                "Transcribe the recording verbatim. "
+                "Do not correct grammar or vocabulary. "
+                "Do not replace spoken words with what the speaker "
+                "probably intended to say. "
+                "Preserve grammatical mistakes, repetitions, "
+                "omissions and unusual word choices. "
+                "Write only what you can actually recognize "
+                "from the audio."
+            )
         )
 
         texto = transcricao.text
