@@ -3,31 +3,35 @@
     "frases": [
         {
             "enunciado": "Fale em inglês",
-            "frase": "Eu não gosto de viajar com meus amigos."
+            "frase": "Ela não precisa viajar conosco."
         },
         {
             "enunciado": "Fale em inglês",
-            "frase": "Ela quer conversar conosco no restaurante."
+            "frase": "Eles gostariam de trabalhar com eles no escritório."
         },
         {
             "enunciado": "Fale em inglês",
-            "frase": "Eles estão no parque agora?"
+            "frase": "Você está na academia agora?"
         },
         {
             "enunciado": "Leia a frase em voz alta",
-            "frase": "I want to go to the movies tomorrow."
+            "frase": "They should start the game right now."
         },
         {
             "enunciado": "Leia a frase em voz alta",
-            "frase": "Would they buy some chocolate for us?"
+            "frase": "Would you help him with his homework?"
         },
         {
             "enunciado": "Leia a frase em voz alta",
-            "frase": "Will you dance with her tonight?"
+            "frase": "We rarely travel to London by car."
         },
         {
             "enunciado": "Responda a pergunta",
-            "frase": "Would you like some coffee?"
+            "frase": "How often do you study English at home?"
+        },
+        {
+            "enunciado": "Responda a pergunta",
+            "frase": "Could you make some coffee for us?"
         },
         {
             "enunciado": "Responda a pergunta",
@@ -35,11 +39,7 @@
         },
         {
             "enunciado": "Responda a pergunta",
-            "frase": "What time do you wake up on weekends?"
-        },
-        {
-            "enunciado": "Responda a pergunta",
-            "frase": "How often do you exercise at the gym?"
+            "frase": "When do you usually exercise?"
         }
     ]
 }
